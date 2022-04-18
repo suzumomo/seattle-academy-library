@@ -43,15 +43,13 @@ public class UsersService {
      * @return ユーザー情報
      */
     public UserInfo selectUserInfo(String email, String password) {
-    	
         // TODO SQL生成
         String sql = "SELECT email,password FROM users WHERE email ='" + email + "' AND password ='" + password + "'";
         try {
-        UserInfo selectedUserInfo = jdbcTemplate.queryForObject(sql, new UserCountRowMapper());
-        return selectedUserInfo;
+           UserInfo selectedUserInfo = jdbcTemplate.queryForObject(sql, new UserCountRowMapper());
+           return selectedUserInfo;
         }catch(Exception e) {
-        return null;
-    }
-
-}
+           return null;
+        }
+     }
 }
