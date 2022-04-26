@@ -56,7 +56,7 @@ public class AddBooksController {
             @RequestParam("author") String author,
             @RequestParam("publisher") String publisher,
             @RequestParam("publishDate") String publishDate,
-            @RequestParam("ISBN") String ISBN,
+            @RequestParam("isbn") String isbn,
             @RequestParam("explanation") String explanation,
             @RequestParam("thumbnail") MultipartFile file,
             Model model) {
@@ -68,7 +68,7 @@ public class AddBooksController {
         bookInfo.setAuthor(author);
         bookInfo.setPublisher(publisher);
         bookInfo.setPublishDate(publishDate);
-        bookInfo.setISBN(ISBN);
+        bookInfo.setIsbn(isbn);
         bookInfo.setExplanation(explanation);
         
 
@@ -95,22 +95,22 @@ public class AddBooksController {
         }
 
         boolean nullCheck = (title.isEmpty()|| author.isEmpty()|| publisher.isEmpty()|| publishDate.isEmpty());
-        boolean isbnCheck1 = ISBN.matches("^[0-9]{10}$");
-        boolean isbnCheck2 = ISBN.matches("^[0-9]{13}$");
+        boolean isbnCheck1 = isbn.matches("^[0-9]{10}$");
+        boolean isbnCheck2 = isbn.matches("^[0-9]{13}$");
         boolean pdCheck = publishDate.matches("^[0-9]{8}$");
         
         
          if(nullCheck) {
         	model.addAttribute("nullError","<p>必須項目を入力して下さい</p>"); 
          }
-         if(!(isbnCheck1) && !(isbnCheck2)) {
+         if(!isbnCheck1 && !isbnCheck2) {
         	model.addAttribute("isbnError","<p>ISBNの桁数または半角数字が正しくありません</p>");
          }
-         if(!(pdCheck)) {
+         if(!pdCheck) {
         	model.addAttribute("pdError","<p>出版日は半角数字のYYYYMMDD形式で入力して下さい</p>");
          }
          
-         if((nullCheck) || !(isbnCheck1) || (!(isbnCheck2) && !(pdCheck))) {
+         if(nullCheck || !isbnCheck1 || !(isbnCheck2 && !pdCheck)) {
         	 model.addAttribute("bookInfo", bookInfo);
         	 return "addBook";
          }
@@ -123,7 +123,7 @@ public class AddBooksController {
         // TODO 登録した書籍の詳細情報を表示するように実装
         
         //  詳細画面に遷移する
-        model.addAttribute("bookDetailsInfo", booksService.getBookInfo(booksService.MaxId()));
+        model.addAttribute("bookDetailsInfo", booksService.getBookInfo(booksService.maxId()));
         return "details";
     }
 

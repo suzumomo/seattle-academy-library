@@ -22,7 +22,7 @@ public class BookDetailsInfo {
     
     private String publishDate;
     
-    private String ISBN;
+    private String isbn;
     
     private String explanation;
 
@@ -34,14 +34,14 @@ public class BookDetailsInfo {
 
     }
 
-    public BookDetailsInfo(int bookId, String title, String author, String publisher, String publishDate, String ISBN,
+    public BookDetailsInfo(int bookId, String title, String author, String publisher, String publishDate, String isbn,
             String explanation, String thumbnailUrl, String thumbnailName) {
         this.bookId = bookId;
         this.title = title;
         this.author = author;
         this.publisher = publisher;
         this.publishDate = publishDate;
-        this.ISBN = ISBN;
+        this.isbn = isbn;
         this.explanation = explanation;
         this.thumbnailUrl = thumbnailUrl;
         this.thumbnailName = thumbnailName;
