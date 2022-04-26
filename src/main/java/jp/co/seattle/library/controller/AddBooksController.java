@@ -29,6 +29,9 @@ public class AddBooksController {
 
     @Autowired
     private ThumbnailService thumbnailService;
+    
+    @Autowired
+    private BooksService bookdService;
 
     @RequestMapping(value = "/addBook", method = RequestMethod.GET) //value＝actionで指定したパラメータ
     //RequestParamでname属性を取得
@@ -52,6 +55,9 @@ public class AddBooksController {
             @RequestParam("title") String title,
             @RequestParam("author") String author,
             @RequestParam("publisher") String publisher,
+            @RequestParam("publishDate") String publishDate,
+            @RequestParam("isbn") String isbn,
+            @RequestParam("explanation") String explanation,
             @RequestParam("thumbnail") MultipartFile file,
             Model model) {
         logger.info("Welcome insertBooks.java! The client locale is {}.", locale);
@@ -61,6 +67,10 @@ public class AddBooksController {
         bookInfo.setTitle(title);
         bookInfo.setAuthor(author);
         bookInfo.setPublisher(publisher);
+        bookInfo.setPublishDate(publishDate);
+        bookInfo.setIsbn(isbn);
+        bookInfo.setExplanation(explanation);
+        
 
         // クライアントのファイルシステムにある元のファイル名を設定する
         String thumbnail = file.getOriginalFilename();
@@ -84,13 +94,36 @@ public class AddBooksController {
             }
         }
 
+        boolean nullCheck = (title.isEmpty()|| author.isEmpty()|| publisher.isEmpty()|| publishDate.isEmpty());
+        boolean isbnCheck1 = isbn.matches("^[0-9]{10}$");
+        boolean isbnCheck2 = isbn.matches("^[0-9]{13}$");
+        boolean pdCheck = publishDate.matches("^[0-9]{8}$");
+        
+        
+         if(nullCheck) {
+        	model.addAttribute("nullError","<p>必須項目を入力して下さい</p>"); 
+         }
+         if(!isbnCheck1 && !isbnCheck2) {
+        	model.addAttribute("isbnError","<p>ISBNの桁数または半角数字が正しくありません</p>");
+         }
+         if(!pdCheck) {
+        	model.addAttribute("pdError","<p>出版日は半角数字のYYYYMMDD形式で入力して下さい</p>");
+         }
+         
+         if(nullCheck || !isbnCheck1 || !(isbnCheck2 && !pdCheck)) {
+        	 model.addAttribute("bookInfo", bookInfo);
+        	 return "addBook";
+         }
+         
         // 書籍情報を新規登録する
-        booksService.registBook(bookInfo);
+         booksService.registBook(bookInfo);
 
         model.addAttribute("resultMessage", "登録完了");
 
         // TODO 登録した書籍の詳細情報を表示するように実装
+        
         //  詳細画面に遷移する
+        model.addAttribute("bookDetailsInfo", booksService.getBookInfo(booksService.maxId()));
         return "details";
     }
 
