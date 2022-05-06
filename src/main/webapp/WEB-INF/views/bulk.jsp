@@ -30,8 +30,22 @@
     </header>
     <main>
         <form action="<%=request.getContextPath()%>/bulkBook" method="post" enctype="multipart/form-data" id="data_upload_form">
+        <div>CSVファイルをアップロードすることで書籍を一括で登録できます。</div>
+        <div>「書籍名,著者名,出版社,出版日、ISBN」の形式で記載して下さい。</div>
+        <div>※サムネイル画像は一括登録できません。編集画面で1冊ずつ編集して下さい。</div>
             <h1>一括登録</h1>
+            <div class="content_right">
+                    <div>
+                    <c:if test="${!empty bulkError}">
+                       <div class="error">${bulkError}</div>
+                    </c:if>
+                    </div>
+            </div>
             <div class="content_body bulk_content">
+            <div>.csv : <input type="file"  accept=".csv"></div>
+            <div class="button.btn_bulkRegist">
+                <button type="submit" id="bulkRegist-btn" class="btn_bulkRegist">一括登録</button>
+            </div>
             </div>
         </form>
     </main>
