@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jp.co.seattle.library.dto.BookDetailsInfo;
 import jp.co.seattle.library.service.BooksService;
-import net.sf.cglib.core.Local;
 
 
 
@@ -54,7 +54,7 @@ public class BulkController {
     
     @Transactional
     @RequestMapping(value = "/bulkBook", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
-        public String bulkbook(Local local,@RequestParam("file") MultipartFile csvFile, Model model){
+        public String bulkbook(Locale locale,@RequestParam("file") MultipartFile csvFile, Model model){
     	
     	 List<BookDetailsInfo> registList = new ArrayList<BookDetailsInfo>();
     	 List<String> errorList = new ArrayList<String>();
@@ -63,9 +63,18 @@ public class BulkController {
         		new InputStreamReader(csvFile.getInputStream(), StandardCharsets.UTF_8))){
             String line;
             int count = 0;
+            
             while ((line = br.readLine()) != null) {
               final String[] split = line.split(",",-1);
               count++;
+              
+              boolean nullCheck = (split[0].isEmpty()|| split[1].isEmpty()|| split[2].isEmpty()|| split[3].isEmpty());
+              boolean pdCheck = split[3].matches("^[0-9]{8}$");
+              boolean isbnCheck = split[4].matches("^[0-9][10]|[0-9]{13}$");
+              
+              if(nullCheck || !isbnCheck || !pdCheck) {
+            	  errorList.add (count+"行目の書籍登録でエラーが起きました。");
+              }
               
               BookDetailsInfo bookInfo = new BookDetailsInfo();
               bookInfo.setTitle(split[0]);
@@ -73,25 +82,23 @@ public class BulkController {
               bookInfo.setPublisher(split[2]);
               bookInfo.setPublishDate(split[3]);
               bookInfo.setIsbn(split[4]);
-             
-              boolean nullCheck = (split[0].isEmpty()|| split[1].isEmpty()|| split[2].isEmpty()|| split[3].isEmpty());
-              boolean pdCheck = split[3].matches("^[0-9]{8}$");
-              boolean isbnCheck1 = split[4].matches("^[0-9]{10}$");
-              boolean isbnCheck2 = split[4].matches("^[0-9]{13}$");
-              
-              if(nullCheck || (!isbnCheck1 && !isbnCheck2) || !pdCheck) {
-            	  errorList.add (count+"行目でバリデーションエラーが起きました");
-              }
               
               registList.add (bookInfo);
+              
             }
+            if(registList.isEmpty()) {
+            	model.addAttribute("emptyError", "CSVに書籍情報がありません。");
+                return "bulk";
+            }
+            
           } catch (IOException e) {
-            throw new RuntimeException("ファイルが読み込めません", e);
+            throw new RuntimeException("ファイルが読み込めません。", e);
           }
         
+        
         if(errorList.size()>0) {
-            model.addAttribute("bulkError", "errorList");
-        return "Bulk";
+            model.addAttribute("bulkError", errorList);
+        return "bulk";
         }
         
         for(BookDetailsInfo bookInfo : registList) {
