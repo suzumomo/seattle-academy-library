@@ -87,7 +87,7 @@ public class BulkController {
               registList.add (bookInfo);
               
             }
-            if(registList.isEmpty()) {
+            if(registList.size()==0) {
             	model.addAttribute("emptyError", "CSVに書籍情報がありません。");
                 return "bulk";
             }
