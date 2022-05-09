@@ -70,9 +70,10 @@ public class BulkController {
               
               boolean nullCheck = (split[0].isEmpty()|| split[1].isEmpty()|| split[2].isEmpty()|| split[3].isEmpty());
               boolean pdCheck = split[3].matches("^[0-9]{8}$");
-              boolean isbnCheck = split[4].matches("^[0-9][10]|[0-9]{13}$");
+              boolean isbnCheck1 = split[4].matches("^[0-9]{10}$");
+              boolean isbnCheck2 = split[4].matches("^[0-9]{13}$");
               
-              if(nullCheck || !isbnCheck || !pdCheck) {
+              if(nullCheck || (!isbnCheck1 && !isbnCheck2) || !pdCheck) {
             	  errorList.add (count+"行目の書籍登録でエラーが起きました。");
               }
               
