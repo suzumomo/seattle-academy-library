@@ -27,11 +27,20 @@ public class RentService {
 	    jdbcTemplate.update(sql);
     }
     
+    
     public int idCount() {
     	
     	String sql = "select count (book_id) from rent";
     	int bookId = jdbcTemplate.queryForObject(sql,int.class);
     	return bookId;
+    }
+    
+    
+    public void returnBook(int bookId) {
+    	
+    	String sql = "DELETE FROM rent WHERE book_id =" + bookId;
+    	
+    	jdbcTemplate.update(sql);
     }
     
 }  
