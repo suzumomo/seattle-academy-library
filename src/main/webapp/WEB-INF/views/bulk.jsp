@@ -30,35 +30,31 @@
     </header>
     <main>
         <form action="<%=request.getContextPath()%>/bulkBook" method="post" enctype="multipart/form-data" id="data_upload_form">
-          <h1>一括登録</h1>
+            <h1>一括登録</h1>
             <div class="bulk_form">
-              <h2>CSVファイルをアップロードすることで書籍を一括で登録できます。</h2>
+                <h2>CSVファイルをアップロードすることで書籍を一括で登録できます。</h2>
                 <div class="caution">
-                  <p>「書籍名,著者名,出版社,出版日、ISBN」の形式で記載して下さい。</p>
-                  <p>※サムネイル画像は一括登録できません。編集画面で1冊ずつ編集して下さい。</p>
-               </div>
-               
-                 <input type="file"  name="file" accept=".csv">
-                 
-                 <div class="button.btn_bulkRegist"> 
-                   <button type="submit" id="bulkRegist-btn" class="btn_bulkRegist">一括登録</button>
-                 </div>
-                 
-                   <c:if test="${!empty emptyError}">
-                     <div class="error">
-                      <p>${emptyError}</p>
-                      </div>
-                   </c:if>
-                   <c:if test="${!empty bulkError}">
-                   <div class="error">
-                     <c:forEach var="bulkError" items="${bulkError}">
-                       <c:if test="${!empty bulkError}">
-                       <p>${bulkError}</p>
-                       </c:if>
-                     </c:forEach>
-                   </div>
-                   </c:if>
-                   
-              </div>
+                    <p>「書籍名,著者名,出版社,出版日、ISBN」の形式で記載して下さい。</p>
+                    <p>※サムネイル画像は一括登録できません。編集画面で1冊ずつ編集して下さい。</p>
+                </div>
+                <input type="file" name="file" accept=".csv">
+                <div class="button.btn_bulkRegist">
+                    <button type="submit" id="bulkRegist-btn" class="btn_bulkRegist">一括登録</button>
+                </div>
+                <c:if test="${!empty emptyError}">
+                    <div class="error">
+                        <p>${emptyError}</p>
+                    </div>
+                </c:if>
+                <c:if test="${!empty bulkError}">
+                    <div class="error">
+                        <c:forEach var="bulkError" items="${bulkError}">
+                            <c:if test="${!empty bulkError}">
+                                <p>${bulkError}</p>
+                            </c:if>
+                        </c:forEach>
+                    </div>
+                </c:if>
+            </div>
         </form>
     </main>
