@@ -14,10 +14,9 @@ public class RentService {
 
 
     /**
-    * 書籍IDに紐づく書籍詳細情報を取得する
+    * 書籍IDに紐づく書籍情報を貸出情報に登録する
     *
     * @param bookId 書籍ID
-    * @return 書籍情報
     */
     public void rentBook(int bookId) {
 	
@@ -27,6 +26,11 @@ public class RentService {
 	    jdbcTemplate.update(sql);
     }
     
+    /**
+     * 貸出し中の書籍数を取得する
+     * 
+     * @return 書籍情報
+     */
     public int idCount() {
     	
     	String sql = "select count (book_id) from rent";
