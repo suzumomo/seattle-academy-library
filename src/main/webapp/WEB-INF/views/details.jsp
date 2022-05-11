@@ -40,6 +40,10 @@
                         </c:if> <c:if test="${bookDetailsInfo.thumbnailUrl != 'null'}">
                             <img class="book_noimg" src="${bookDetailsInfo.thumbnailUrl}">
                         </c:if> <input type="hidden" name="bookId" value="${bookDetailsInfo.bookId}">
+                        <c:if test="${!empty deleteError}">
+                       <div class="error">${deleteError}
+                       </div>
+                      </c:if>
                     </a>
                 </div>
             </div>
@@ -74,7 +78,7 @@
             <form method="post" action="rentBook">
                <button type="submit" value="${bookDetailsInfo.bookId}" name="bookId" class="btn_rentBook">借りる</button>
             </form>
-            <form method="post" action="retureBook">
+            <form method="post" action="returnBook">
                 <button type="submit" value="${bookDetailsInfo.bookId}" name="bookId" class="btn_returnBook">返す</button>
             </form>
              <form method="post" action="editBook">

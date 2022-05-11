@@ -43,4 +43,15 @@ public class RentService {
     	jdbcTemplate.update(sql);
     }
     
+    public int delete(int bookId) {
+    	
+    	try {
+    		String sql = "SELECT book_id FROM rent WHERE book_id =" + bookId;
+    	    int deleteId = jdbcTemplate.queryForObject(sql,int.class);
+    	    return deleteId;
+    	
+    	}catch(Exception e){
+    		return 0;
+    	}
+    }
 }  
