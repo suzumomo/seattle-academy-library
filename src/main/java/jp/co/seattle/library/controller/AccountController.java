@@ -58,11 +58,20 @@ public class AccountController {
 
         // TODO バリデーションチェック、パスワード一致チェック実装
 
+        boolean validPass = password.matches("^[a-zA-Z0-9]{8,}$");
+        
+        if(!validPass) {
+        	model.addAttribute("validError", "パスワードは半角英数８文字以上で入力して下さい。");
+        }
+        if(!password.equals(passwordForCheck)) {
+        	model.addAttribute("passError", "パスワードが一致しません。");
+        }
+        
         userInfo.setPassword(password);
         usersService.registUser(userInfo);
 
         model.addAttribute("bookList", booksService.getBookList());
-        return "home";
+        return "login";
     }
 
 }
