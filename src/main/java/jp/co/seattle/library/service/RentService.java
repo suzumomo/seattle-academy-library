@@ -40,7 +40,11 @@ public class RentService {
     	return bookId;
     }
     
-    
+    /**
+     * 返却された書籍を貸出情報から削除する
+     * 
+     * @param bookId　書籍ID
+     */
     public void returnBook(int bookId) {
     	
     	String sql = "DELETE FROM rent WHERE book_id =" + bookId;
