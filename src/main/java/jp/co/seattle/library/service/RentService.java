@@ -26,16 +26,30 @@ public class RentService {
 	    jdbcTemplate.update(sql);
     }
     
+
     /**
      * 貸出し中の書籍数を取得する
      * 
      * @return 書籍情報
      */
+
     public int idCount() {
     	
     	String sql = "select count (book_id) from rent";
     	int bookId = jdbcTemplate.queryForObject(sql,int.class);
     	return bookId;
+    }
+    
+    /**
+     * 返却された書籍を貸出情報から削除する
+     * 
+     * @param bookId　書籍ID
+     */
+    public void returnBook(int bookId) {
+    	
+    	String sql = "DELETE FROM rent WHERE book_id =" + bookId;
+    	
+    	jdbcTemplate.update(sql);
     }
     
 }  
