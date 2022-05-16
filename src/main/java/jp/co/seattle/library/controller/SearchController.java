@@ -1,3 +1,5 @@
+package jp.co.seattle.library.controller;
+
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -11,41 +13,34 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.co.seattle.library.service.BooksService;
-import jp.co.seattle.library.service.UsersService;
 
 /**
- * アカウント作成コントローラー
+ * 詳細表示コントローラー
  */
-@Controller //APIの入り口
+@Controller
 public class SearchController {
-    final static Logger logger = LoggerFactory.getLogger(LoginController.class);
+    final static Logger logger = LoggerFactory.getLogger(BooksService.class);
 
     @Autowired
     private BooksService booksService;
-    @Autowired
-    private UsersService usersService;
-
-    @RequestMapping(value = "/newAccount", method = RequestMethod.GET) //value＝actionで指定したパラメータ
-    public String createAccount(Model model) {
-        return "createAccount";
-    }
 
     /**
-     * 新規アカウント作成
-     *
-     * @param email メールアドレス
-     * @param password パスワード
-     * @param passwordForCheck 確認用パスワード
-     * @param model
-     * @return　ホーム画面に遷移
+     * 書籍を検索する
+     * @param locale　ロケール情報
+     * @param title　書籍名
+     * @param model　モデル
+     * @return　遷移先
      */
-    
     @Transactional
-    @RequestMapping(value = "/createAccount", method = RequestMethod.POST)
-    public String createAccount(Locale locale,
-            @RequestParam("email") String email,
-            @RequestParam("password") String password,
-            @RequestParam("passwordForCheck") String passwordForCheck,
+    @RequestMapping(value = "/searchBook", method = RequestMethod.POST)
+    public String searchBook(Locale locale,
+            @RequestParam("title") String title,
             Model model) {
         // デバッグ用ログ
-        logger.info("Welcome createAccount! The client locale is {}.", locale);
+        logger.info("Welcome detailsControler.java! The client locale is {}.", locale);
+
+        model.addAttribute("bookList", booksService.searchBookList(title));
+
+        return "home";
+    }
+}
