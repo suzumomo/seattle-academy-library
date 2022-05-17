@@ -25,12 +25,16 @@
         </div>
     </header>
     <main>
-        <h1>Home</h1>
-        <a href="<%=request.getContextPath()%>/addBook" class="btn_add_book">書籍の追加</a> <a href="<%=request.getContextPath()%>/bulk" class="btn_bulk_book">一括登録</a>
-        <div class="container">
-            <form method="post" action="searchBook">
-                <input type="text" class="search_box" name="title" placeholder="検索"> <input type="submit" class="search1" name="submit" value="検索">
-            </form>
+        <div class="search_header">
+            <h1>Home</h1>
+            <div class="container">
+                <form method="post" action="searchBook">
+                    <input type="text" class="search1" name="title"> <input type="submit" class="search_box" name="submit" value="検索">
+                </form>
+            </div>
+        </div>
+        <div>
+            <a href="<%=request.getContextPath()%>/addBook" class="btn_add_book">書籍の追加</a> <a href="<%=request.getContextPath()%>/bulk" class="btn_bulk_book">一括登録</a>
         </div>
         <div class="content_body">
             <c:if test="${!empty resultMessage}">

@@ -25,13 +25,16 @@ public class ReturnController {
 	@Autowired
     private RentService rentService;
 
-    /**
-     * 詳細画面に遷移する
-     * @param locale
-     * @param bookId
-     * @param model
-     * @return
-     */
+	/**
+	 * 書籍の返却
+	 * 
+	 * @param locale　ロケール情報
+	 * @param model　モデル情報
+	 * @param bookId　書籍ID
+	 * @param　before　返却処理前の貸出中の書籍数
+	 * @param　after　返却処理後の貸出中の書籍数
+	 * @return　遷移先情報
+	 */
     @Transactional
     @RequestMapping(value = "/returnBook", method = RequestMethod.POST)
     public String ReturnBook(Locale locale,
@@ -40,18 +43,18 @@ public class ReturnController {
         // デバッグ用ログ
         logger.info("Welcome detailsControler.java! The client locale is {}.", locale);
         
-        int count1 = rentService.idCount();
+        int before = rentService.idCount();
         
         rentService.returnBook(bookId);
         model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
         
-        int count2 = rentService.idCount();
+        int after = rentService.idCount();
         
         
-        if (count1 == count2) {
+        if (before == after) {
         	model.addAttribute("returnError","貸出しされていません。");
         }
         
-        return"return";
+        return"details";
     }
 }
