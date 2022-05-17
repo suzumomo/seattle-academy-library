@@ -39,15 +39,18 @@
                             <img class="book_noimg" src="resources/img/noImg.png">
                         </c:if> <c:if test="${bookDetailsInfo.thumbnailUrl != 'null'}">
                             <img class="book_noimg" src="${bookDetailsInfo.thumbnailUrl}">
-                        </c:if> <input type="hidden" name="bookId" value="${bookDetailsInfo.bookId}">
+                        </c:if> <input type="hidden" name="bookId" value="${bookDetailsInfo.bookId}"> <c:if test="${!empty deleteError}">
+                            <div class="error">${deleteError}</div>
+                        </c:if> <input type="hidden" name="bookId" value="${bookDetailsInfo.bookId}"> <c:if test="${!empty rentError}">
+                            <div class="error">${rentError}</div>
+                        </c:if> <c:if test="${!empty returnError}">
+                            <div class="error">${returnError}</div>
+                        </c:if>
                     </a>
                 </div>
-                <c:if test="${bookDetailsInfo.rentBookId == 0}">
-                    <span>貸出し可</span>
-                </c:if>
-                <c:if test="${bookDetailsInfo.rentBookId != 0}">
-                    <span>貸出し中</span>
-                </c:if>
+                <div>
+                    <p>${bookDetailsInfo.status}</p>
+                </div>
                 <c:if test="${!empty deleteError}">
                     <div class="error">${deleteError}</div>
                 </c:if>
