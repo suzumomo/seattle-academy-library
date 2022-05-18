@@ -45,10 +45,10 @@ public class DeleteBookController {
         logger.info("Welcome delete! The client locale is {}.", locale);
 
         
-        int deleteId2 = rentService.delete(bookId);
+        int deleteBook = rentService.deleteBookCheck(bookId);
         
         
-        if(deleteId2 == 0) {
+        if(deleteBook == 0) {
         	booksService.deleteBook(bookId);
         }else {
         	model.addAttribute("deleteError","貸出し中です。");
