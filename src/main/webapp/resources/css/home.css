@@ -65,13 +65,48 @@ input {
 }
 
 /* ここから追加 */
+/*
 .search_box {
     position: relative;
     margin-left: -5px;
+    background-color: red;!important;
+}
+*/
+
+.container .search_box {
+  display       : inline-block;
+  font-size     : 13pt;        /* 文字サイズ */
+  text-align    : center;      /* 文字位置   */
+  cursor        : pointer;     /* カーソル   */
+  padding       : 5px 2px;   /* 余白       */
+  background    : #5B9AD5;     /* 背景色     */
+  color         : #ffffff;     /* 文字色     */
+  line-height   : 1em;         /* 1行の高さ  */
+  transition    : .3s;         /* なめらか変化 */
+  
+}
+.container .search_box:hover {
+
+ opacity:0.5;
+  text-shadow:none;
 }
 
-.search1 {
-    border-radius: 20px 0 0 20px;
+.search_header{
+	display:flex;
+	justify-content:space-between;
+}
+h1{
+	display:inline-block;
+	align-items: center;
+    justify-content: left;
+}
+.container{
+	display:flex;
+	margin-left:auto;
+	width:450px;
+}
+.container .search1 {
+   /** border-radius: 20px 0 0 20px; */
     font-size: 15px;
     width: 325px;
     padding: 4px 10px;
