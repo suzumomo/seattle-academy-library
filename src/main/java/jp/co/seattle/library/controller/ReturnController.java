@@ -43,18 +43,18 @@ public class ReturnController {
         // デバッグ用ログ
         logger.info("Welcome detailsControler.java! The client locale is {}.", locale);
         
-        int before = rentService.idCount();
+        int before = rentService.rentBookCount();
         
         rentService.returnBook(bookId);
-        model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
         
-        int after = rentService.idCount();
+        int after = rentService.rentBookCount();
         
         
         if (before == after) {
         	model.addAttribute("returnError","貸出しされていません。");
         }
         
+        model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
         return"details";
     }
 }

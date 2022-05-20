@@ -28,12 +28,12 @@ public class RentController {
 	/**
 	 * 書籍の貸出し
 	 * 
-	 * @param locale　ロケール情報
-	 * @param model　モデル情報
-	 * @param bookId　書籍ID
-	 * @param　before　貸出し処理前の貸出中の書籍数
-	 * @param　after　貸出処理後の貸出中の書籍数
-	 * @return　遷移先情報
+	 * @param locale ロケール情報
+	 * @param model  モデル情報
+	 * @param bookId 書籍ID
+	 * @param before 貸出し処理前の貸出中の書籍数
+	 * @param after  貸出処理後の貸出中の書籍数
+	 * @return 遷移先情報
 	 */
 	@Transactional
 	@RequestMapping(value = "/rentBook", method = RequestMethod.POST)
@@ -41,17 +41,23 @@ public class RentController {
 		// デバッグ用ログ
 		logger.info("Welcome detailsControler.java! The client locale is {}.", locale);
 
-		int before = rentService.idCount();
+		int rentBookId = rentService.rentBookCheck(bookId);
 
-		rentService.rentBook(bookId);
-		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
+		if (rentBookId == 0) {
+			rentService.rentBook(bookId);
 
-		int after = rentService.idCount();
+		} else {
+			int before = rentService.rentBookCount();
 
-		if (before == after) {
-			model.addAttribute("rentError", "貸出し中です。");
+			rentService.updateRentBook(bookId);
+
+			int after = rentService.rentBookCount();
+
+			if (before == after) {
+				model.addAttribute("rentError", "貸出し中です。");
+			}
 		}
-
+		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 		return "details";
 	}
 }
