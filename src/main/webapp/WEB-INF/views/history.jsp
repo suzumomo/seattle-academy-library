@@ -26,27 +26,28 @@
         </div>
     </header>
     <main>
-        <table class="table-bordered">
-            <thead>
-                <tr class="table-info">
-                    <th scope="col" style="width: 20%">書籍名</th>
-                    <th scope="col" style="width: 10%">貸出日</th>
-                    <th scope="col" style="width: 10%">返却日</th>
-                </tr>
-            </thead>
-            <c:forEach var="historyInfo" items="${historyBookList}">
-                <tbody>
-                    <tr>
-                        <th><form method="post" action="<%=request.getContextPath()%>/details">
-                                <a href="javascript:void(0)" onclick="this.parentNode.submit();">${historyInfo.title}
-                                </a> <input type="hidden" name="bookId" value="${historyInfo.bookId}">
-                            </form></th>
-                        <th>${historyInfo.rentDate}</th>
-                        <th>${historyInfo.returnDate}</th>
+        <div class="mx-auto" style="width: 800px;">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="table-info">
+                        <th scope="col" style="width: 20%">書籍名</th>
+                        <th scope="col" style="width: 10%">貸出日</th>
+                        <th scope="col" style="width: 10%">返却日</th>
                     </tr>
-                </tbody>
-            </c:forEach>
-        </table>
+                </thead>
+                <c:forEach var="historyInfo" items="${historyBookList}">
+                    <tbody>
+                        <tr>
+                            <td><form method="post" action="<%=request.getContextPath()%>/details">
+                                    <a href="javascript:void(0)" onclick="this.parentNode.submit();">${historyInfo.title} </a> <input type="hidden" name="bookId" value="${historyInfo.bookId}">
+                                </form></td>
+                            <th>${historyInfo.rentDate}</th>
+                            <th>${historyInfo.returnDate}</th>
+                        </tr>
+                    </tbody>
+                </c:forEach>
+            </table>
+        </div>
     </main>
 </body>
 </html>
