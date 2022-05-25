@@ -48,7 +48,7 @@ public class BooksService {
 	public BookDetailsInfo getBookInfo(int bookId) {
 
 		// JSPに渡すデータを設定する
-		String sql = "SELECT *, CASE WHEN book_id is null then '貸出し可' ELSE '貸出し中' END as status FROM books left outer JOIN rent ON books.id = rent.book_id where books.id=" + bookId;
+		String sql = "SELECT *, CASE WHEN rent_date is null then '貸出し可' ELSE '貸出し中' END as status FROM books left outer JOIN rent ON books.id = rent.book_id where books.id=" + bookId;
 
 		BookDetailsInfo bookDetailsInfo = jdbcTemplate.queryForObject(sql, new BookDetailsInfoRowMapper());
 
@@ -80,13 +80,25 @@ public class BooksService {
 	}
 
 	/**
-	 * 書籍を削除する
+	 * 書籍を書籍情報から削除する
 	 *
 	 * @param bookId 書籍ID
 	 */
 	public void deleteBook(int bookId) {
 
 		String sql = "DELETE FROM books WHERE id =" + bookId;
+
+		jdbcTemplate.update(sql);
+	}
+	
+	/**
+	 * 書籍を貸出し情報から削除する
+	 *
+	 * @param bookId 書籍ID
+	 */
+	public void deleteRentBook(int bookId) {
+
+		String sql = "DELETE FROM rent WHERE id =" + bookId;
 
 		jdbcTemplate.update(sql);
 	}
